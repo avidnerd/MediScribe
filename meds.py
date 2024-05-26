@@ -16,7 +16,6 @@ except Exception as e:
     st.error(f"Failed to pull llama2 model: {e}")
     logging.exception("Failed to pull llama2 model")
 
-# Database setup
 conn = sqlite3.connect('visits.db')
 c = conn.cursor()
 c.execute('''
@@ -104,13 +103,10 @@ if st.button('Show All Visits'):
     st.subheader("All Recorded Visits")
     visits = c.execute('SELECT id, transcript, summary FROM visits').fetchall()
     for visit in visits:
-        if visit[0] % 2 == 0:
-            continue
-        else:
-            st.write(f"Visit ID: {visit[0]}")
-            with st.expander("Transcript"):
-                st.write(visit[1])
-            with st.expander("Summary"):
-                st.write(visit[2])
+        st.write(f"Visit ID: {visit[0]}")
+        with st.expander("Transcript"):
+            st.write(visit[1])
+        with st.expander("Summary"):
+            st.write(visit[2])
 
 conn.close()
